@@ -3,21 +3,23 @@ pipeline {
 
     stages {
 
-        stage('Build') {
+        stage('Checkout') {
             steps {
-                echo 'Building Travel App...'
+                git branch: 'main',
+                url: 'https://github.com/jeenasalphonse-ux/travel_pp.git'
             }
         }
 
-        stage('Test') {
+        stage('Build Images') {
             steps {
-                echo 'Running Tests...'
+                sh 'docker-compose build'
             }
         }
 
-        stage('Deploy') {
+        stage('Restart App') {
             steps {
-                echo 'Deploying App...'
+                sh 'docker-compose down'
+                sh 'docker-compose up -d'
             }
         }
     }
